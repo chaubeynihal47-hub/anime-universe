@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Universe - Your Gateway to Anime</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        // Configure Tailwind to use our custom font
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        anime: {
+                            dark: '#0f172a',
+                            primary: '#ec4899', // Pinkish red
+                            secondary: '#8b5cf6', // Purple
+                            accent: '#38bdf8' // Light Blue
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for a better look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8b5cf6; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ec4899; 
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Glassmorphism effect for navbar */
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Image overlay */
+        .hero-bg {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1974&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Hover effects for anime cards */
+        .anime-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .anime-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-anime-dark text-white font-sans antialiased">
+
+    <!-- Navigation Bar -->
+    <nav class="glass-nav fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <i class="fa-solid fa-dragon text-anime-primary text-2xl"></i>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-anime-primary to-anime-secondary">
+                            AnimeUniverse
+                        </span>
+                        <span class="text-[10px] text-gray-400 font-medium -mt-1 tracking-widest uppercase">by Nihal Chaubey</span>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-anime-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="#ai-guru" class="hover:text-anime-accent px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Guru</a>
+                        <a href="#trending" class="hover:text-anime-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Trending</a>
+                        <a href="#genres" class="hover:text-anime-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Genres</a>
+                        <a href="#about" class="hover:text-anime-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-anime-dark border-b border-gray-800 pb-3 pt-2">
+            <div class="px-2 space-y-1 sm:px-3 flex flex-col">
+                <a href="#home" class="hover:bg-gray-800 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#ai-guru" class="hover:bg-gray-800 text-anime-accent block px-3 py-2 rounded-md text-base font-medium"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>AI Guru</a>
+                <a href="#trending" class="hover:bg-gray-800 block px-3 py-2 rounded-md text-base font-medium">Trending</a>
+                <a href="#genres" class="hover:bg-gray-800 block px-3 py-2 rounded-md text-base font-medium">Genres</a>
+                <a href="#about" class="hover:bg-gray-800 block px-3 py-2 rounded-md text-base font-medium">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- AI Guru Section -->
+    <section id="ai-guru" class="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-b border-gray-800">
+        <div class="bg-gray-900 rounded-2xl p-8 md:p-12 shadow-2xl border border-gray-800 relative overflow-hidden">
+            <!-- Decorative elements -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-anime-accent/10 rounded-full filter blur-3xl translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+            
+            <div class="text-center mb-8 relative z-10">
+                <span class="inline-block py-1 px-3 rounded-full bg-anime-accent/20 text-anime-accent border border-anime-accent/30 text-xs font-semibold mb-3">
+                    <i class="fa-solid fa-robot mr-1"></i> Powered by Gemini AI
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ask the <span class="text-transparent bg-clip-text bg-gradient-to-r from-anime-accent to-anime-secondary">Anime Guru</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Not sure what to watch next? Tell our AI what you're in the mood for, your favorite tropes, or other shows you liked, and get a personalized recommendation!</p>
+            </div>
+
+            <div class="relative z-10">
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <input type="text" id="ai-prompt-input" placeholder="E.g., 'What are the best new anime of this year?' or 'Recommend a masterpiece action anime'" class="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-anime-accent focus:ring-1 focus:ring-anime-accent transition-all shadow-inner">
+                    <button id="ai-ask-btn" onclick="getAIRecommendation()" class="bg-gradient-to-r from-anime-secondary to-anime-accent hover:from-purple-600 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-anime-secondary/30 transition-all transform hover:-translate-y-1 flex items-center justify-center min-w-[160px]">
+                        <span>Ask Guru</span>
+                        <i class="fa-solid fa-paper-plane ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- Loading State -->
+                <div id="ai-loading" class="hidden flex flex-col items-center justify-center py-8">
+                    <i class="fa-solid fa-circle-notch fa-spin text-4xl text-anime-accent mb-4"></i>
+                    <p class="text-gray-400 animate-pulse">The Guru is consulting the anime archives...</p>
+                </div>
+
+                <!-- Result Container -->
+                <div id="ai-result-container" class="hidden mt-6 bg-gray-800/50 rounded-xl p-6 border border-gray-700/50">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-anime-accent/20 flex items-center justify-center flex-shrink-0 mt-1">
+                            <i class="fa-solid fa-wand-magic-sparkles text-anime-accent"></i>
+                        </div>
+                        <div id="ai-result-text" class="text-gray-300 leading-relaxed whitespace-pre-wrap font-medium">
+                            <!-- AI response will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Anime Section -->
+    <section id="trending" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="flex justify-between items-end mb-12 border-b border-gray-800 pb-4">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Trending Now</h2>
+                <p class="text-gray-400">The most popular anime this season</p>
+            </div>
+            <a href="#" class="text-anime-accent hover:text-white transition-colors hidden sm:block">View All <i class="fa-solid fa-arrow-right ml-1"></i></a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Anime Card 1: Jujutsu Kaisen -->
+            <div class="anime-card bg-gray-900 rounded-xl overflow-hidden border border-gray-800 relative group">
+                <div class="absolute top-2 right-2 bg-black/70 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-yellow-400 z-10">
+                    <i class="fa-solid fa-star"></i> 9.5
+                </div>
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=2070&auto=format&fit=crop" alt="Jujutsu Kaisen" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                </div>
+                <div class="p-5 relative">
+                    <div class="flex gap-2 mb-3">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-anime-primary bg-anime-primary/10 px-2 py-1 rounded">Action</span>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-anime-secondary bg-anime-secondary/10 px-2 py-1 rounded">Supernatural</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 line-clamp-1">Jujutsu Kaisen</h3>
+                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">A boy swallows a cursed demon finger and enters a shaman's school to exorcise the curse and fight terrifying evil spirits.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">47 Episodes</span>
+                        <button class="text-white hover:text-anime-primary transition-colors"><i class="fa-regular fa-heart text-xl"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anime Card 2: Frieren -->
+            <div class="anime-card bg-gray-900 rounded-xl overflow-hidden border border-gray-800 relative group">
+                <div class="absolute top-2 right-2 bg-black/70 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-yellow-400 z-10">
+                    <i class="fa-solid fa-star"></i> 9.8
+                </div>
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=1974&auto=format&fit=crop" alt="Frieren" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                </div>
+                <div class="p-5 relative">
+                    <div class="flex gap-2 mb-3">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-green-400 bg-green-400/10 px-2 py-1 rounded">Fantasy</span>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-blue-400 bg-blue-400/10 px-2 py-1 rounded">Adventure</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 line-clamp-1">Frieren: Beyond Journey's End</h3>
+                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">An immortal elf Mage must learn to understand humanity and the fleeting nature of life as her old mortal companions pass away.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">28 Episodes</span>
+                        <button class="text-white hover:text-anime-primary transition-colors"><i class="fa-regular fa-heart text-xl"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anime Card 3: Attack on Titan -->
+            <div class="anime-card bg-gray-900 rounded-xl overflow-hidden border border-gray-800 relative group">
+                <div class="absolute top-2 right-2 bg-black/70 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-yellow-400 z-10">
+                    <i class="fa-solid fa-star"></i> 9.9
+                </div>
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1560972550-aba3456b5564?q=80&w=2070&auto=format&fit=crop" alt="Attack on Titan" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                </div>
+                <div class="p-5 relative">
+                    <div class="flex gap-2 mb-3">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-red-500 bg-red-500/10 px-2 py-1 rounded">Action</span>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-orange-400 bg-orange-400/10 px-2 py-1 rounded">Drama</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 line-clamp-1">Attack on Titan</h3>
+                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">Humanity lives within cities surrounded by enormous walls to protect themselves from gigantic man-eating humanoids known as Titans.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">89 Episodes</span>
+                        <button class="text-white hover:text-anime-primary transition-colors"><i class="fa-regular fa-heart text-xl"></i></button>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Anime Card 4: Solo Leveling -->
+             <div class="anime-card bg-gray-900 rounded-xl overflow-hidden border border-gray-800 relative group">
+                <div class="absolute top-2 right-2 bg-black/70 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-yellow-400 z-10">
+                    <i class="fa-solid fa-star"></i> 9.4
+                </div>
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1968&auto=format&fit=crop" alt="Solo Leveling" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                </div>
+                <div class="p-5 relative">
+                    <div class="flex gap-2 mb-3">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-purple-400 bg-purple-400/10 px-2 py-1 rounded">Action</span>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-blue-500 bg-blue-500/10 px-2 py-1 rounded">Fantasy</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 line-clamp-1">Solo Leveling</h3>
+                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">The weakest hunter in the world uncovers a secret program that allows him to level up infinitely and become the strongest.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">12 Episodes (S1)</span>
+                        <button class="text-white hover:text-anime-primary transition-colors"><i class="fa-regular fa-heart text-xl"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 text-center sm:hidden">
+            <button class="w-full py-3 bg-gray-800 rounded-lg text-white font-semibold">View All Trending</button>
+        </div>
+    </section>
+
+    <!-- Genres Section -->
+    <section id="genres" class="py-16 bg-gray-900 border-y border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Browse by Genre</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Find exactly what you're in the mood for. Explore our vast collection categorized by your favorite genres.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- Genre Pills -->
+                <a href="#" class="flex flex-col items-center justify-center p-6 bg-gray-800 hover:bg-anime-primary/20 hover:border-anime-primary border border-gray-700 rounded-xl transition-all group">
+                    <i class="fa-solid fa-fist-raised text-3xl mb-3 text-gray-500 group-hover:text-anime-primary transition-colors"></i>
+                    <span class="font-semibold">Action</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center p-6 bg-gray-800 hover:bg-anime-secondary/20 hover:border-anime-secondary border border-gray-700 rounded-xl transition-all group">
+                    <i class="fa-solid fa-heart text-3xl mb-3 text-gray-500 group-hover:text-anime-secondary transition-colors"></i>
+                    <span class="font-semibold">Romance</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center p-6 bg-gray-800 hover:bg-green-500/20 hover:border-green-500 border border-gray-700 rounded-xl transition-all group">
+                    <i class="fa-solid fa-robot text-3xl mb-3 text-gray-500 group-hover:text-green-500 transition-colors"></i>
+                    <span class="font-semibold">Mecha</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center p-6 bg-gray-800 hover:bg-yellow-500/20 hover:border-yellow-500 border border-gray-700 rounded-xl transition-all group">
+                    <i class="fa-solid fa-face-laugh-squint text-3xl mb-3 text-gray-500 group-hover:text-yellow-500 transition-colors"></i>
+                    <span class="font-semibold">Comedy</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center p-6 bg-gray-800 hover:bg-purple-500/20 hover:border-purple-500 border border-gray-700 rounded-xl transition-all group">
+                    <i class="fa-solid fa-wand-magic-sparkles text-3xl mb-3 text-gray-500 group-hover:text-purple-500 transition-colors"></i>
+                    <span class="font-semibold">Isekai</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center p-6 bg-gray-800 hover:bg-red-500/20 hover:border-red-500 border border-gray-700 rounded-xl transition-all group">
+                    <i class="fa-solid fa-ghost text-3xl mb-3 text-gray-500 group-hover:text-red-500 transition-colors"></i>
+                    <span class="font-semibold">Horror</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-20 relative overflow-hidden">
+        <!-- Decorative blobs -->
+        <div class="absolute top-0 left-0 w-64 h-64 bg-anime-primary/10 rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-80 h-80 bg-anime-secondary/10 rounded-full filter blur-3xl translate-x-1/3 translate-y-1/3"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Never Miss an Update</h2>
+            <p class="text-gray-400 mb-8">Subscribe to our newsletter for the latest anime news, reviews, and exclusive recommendations.</p>
+            <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="event.preventDefault(); alert('Thanks for subscribing! (This is a demo)');">
+                <input type="email" placeholder="Enter your email address" required class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-anime-primary focus:ring-1 focus:ring-anime-primary transition-colors">
+                <button type="submit" class="bg-anime-primary hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg shadow-anime-primary/20">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="about" class="bg-black border-t border-gray-900 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-dragon text-anime-primary text-2xl"></i>
+                        <span class="font-bold text-xl tracking-wider text-white">AnimeUniverse</span>
+                    </div>
+                    <p class="text-gray-500 mb-6 max-w-sm">
+                        Your ultimate destination for everything anime. Discover, track, and share your favorite Japanese animation with a passionate community.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:text-white hover:bg-anime-primary transition-all"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:text-white hover:bg-anime-secondary transition-all"><i class="fa-brands fa-discord"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:text-white hover:bg-red-600 transition-all"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-500">
+                        <li><a href="#" class="hover:text-anime-accent transition-colors">Home</a></li>
+                        <li><a href="#" class="hover:text-anime-accent transition-colors">Top Anime</a></li>
+                        <li><a href="#" class="hover:text-anime-accent transition-colors">Seasonal</a></li>
+                        <li><a href="#" class="hover:text-anime-accent transition-colors">Community</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Legal</h4>
+                    <ul class="space-y-2 text-gray-500">
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-900 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-600 text-sm text-center md:text-left mb-4 md:mb-0">
+                    &copy; 2026 AnimeUniverse. Created by Nihal Chaubey.
+                </p>
+                <div class="text-gray-600 text-sm">
+                    Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> by Nihal Chaubey
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Navbar background on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.style.background = 'rgba(15, 23, 42, 0.8)';
+            }
+        });
+        
+        // Simple custom message box function to replace alert()
+        function showMessage(msg) {
+            // Create element
+            const alertBox = document.createElement('div');
+            alertBox.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-anime-secondary text-white px-6 py-3 rounded-lg shadow-2xl z-50 transition-all duration-300 opacity-0 translate-y-[-20px]';
+            alertBox.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>${msg}</span>
+                </div>
+            `;
+            
+            // Append to body
+            document.body.appendChild(alertBox);
+            
+            // Animate in
+            setTimeout(() => {
+                alertBox.classList.remove('opacity-0', 'translate-y-[-20px]');
+            }, 10);
+            
+            // Animate out and remove
+            setTimeout(() => {
+                alertBox.classList.add('opacity-0', 'translate-y-[-20px]');
+                setTimeout(() => {
+                    alertBox.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // Override form submission alert
+        document.querySelector('form').onsubmit = function(event) {
+            event.preventDefault();
+            showMessage('Arigato! Thanks for subscribing to our newsletter.');
+            this.reset();
+        };
+
+        // Gemini API Logic for Anime Guru
+        async function getAIRecommendation() {
+            const inputField = document.getElementById('ai-prompt-input');
+            const askBtn = document.getElementById('ai-ask-btn');
+            const loadingDiv = document.getElementById('ai-loading');
+            const resultContainer = document.getElementById('ai-result-container');
+            const resultText = document.getElementById('ai-result-text');
+            
+            const userPrompt = inputField.value.trim();
+
+            if (!userPrompt) {
+                showMessage("Please tell the Guru what you're looking for first!");
+                inputField.focus();
+                return;
+            }
+
+            // Update UI to loading state
+            inputField.disabled = true;
+            askBtn.disabled = true;
+            askBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            resultContainer.classList.add('hidden');
+            loadingDiv.classList.remove('hidden');
+
+            const systemPrompt = `You are the 'Anime Guru', a passionate, deeply knowledgeable, and friendly anime expert. 
+            The user will ask for anime recommendations. Your task is to recommend exactly 2 of the NEWEST, HIGHEST-RATED, or ALL-TIME BEST anime series that fit their request perfectly. 
+            Focus on modern hits, trending shows, and top-tier masterpieces.
+            For each recommendation, provide:
+            1. The Anime Title (make it stand out, include release year).
+            2. A brief 2-3 sentence engaging synopsis.
+            3. Exactly why it fits their specific request and why it's highly rated.
+            Keep the tone enthusiastic. Use plain text formatting, using newlines for spacing. Do not use asterisks for bolding, just use clear spacing.`;
+
+            const apiKey = ""; // API key is provided by Canvas environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            try {
+                // Implement exponential backoff for API calls
+                const fetchWithRetry = async (url, options, retries = 3, delay = 1000) => {
+                    for (let i = 0; i < retries; i++) {
+                        const response = await fetch(url, options);
+                        if (response.ok) return response;
+                        if (i === retries - 1) throw new Error(`API returned status ${response.status}`);
+                        await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
+                    }
+                };
+
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates[0].content.parts[0].text) {
+                    const generatedText = result.candidates[0].content.parts[0].text;
+                    resultText.textContent = generatedText;
+                    resultContainer.classList.remove('hidden');
+                } else {
+                    throw new Error("Invalid response structure from API");
+                }
+
+            } catch (error) {
+                resultText.textContent = "Gomen nasai! (Sorry!) The Guru's crystal ball is foggy right now. Please try again later.";
+                resultContainer.classList.remove('hidden');
+            } finally {
+                // Reset UI state
+                inputField.disabled = false;
+                askBtn.disabled = false;
+                askBtn.innerHTML = '<span>Ask Guru</span><i class="fa-solid fa-paper-plane ml-2"></i>';
+                loadingDiv.classList.add('hidden');
+            }
+        }
+
+        // Add heart click animation
+        const heartButtons = document.querySelectorAll('.anime-card button');
+        heartButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                if(icon.classList.contains('fa-regular')) {
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('fa-solid', 'text-red-500');
+                    // Small pop animation
+                    icon.style.transform = 'scale(1.3)';
+                    setTimeout(() => icon.style.transform = 'scale(1)', 200);
+                } else {
+                    icon.classList.add('fa-regular');
+                    icon.classList.remove('fa-solid', 'text-red-500');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
